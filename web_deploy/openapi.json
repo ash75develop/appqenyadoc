@@ -1,0 +1,1546 @@
+{
+  "info": {
+    "description": "Api applicazione qenya",
+    "title": "Applicazione gestione per utenti",
+    "version": "1.1.0",
+    "x-logo": {
+      "url": "http://www.q-enya.it/wp-content/uploads/2018/11/logo-q-enya-1.png",
+      "backgroundColor": "#FFFFFF",
+      "altText": "q-enya logo"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/v1",
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": ""
+    }
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/autenticate": {
+      "post": {
+        "parameters": [
+          {
+            "name": "authrequest",
+            "in": "body",
+            "description": "Richiesta autenticazione",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthRequest"
+            }
+          }
+        ],
+        "description": "Autenticazione app",
+        "tags": [
+          "Public API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Authentication info",
+            "schema": {
+              "$ref": "#/definitions/AuthResponse"
+            }
+          },
+          "401": {
+            "description": "Authentication error (autenticazione fallita)"
+          }
+        }
+      }
+    },
+    "/nuovoUtente": {
+      "post": {
+        "parameters": [
+          {
+            "name": "newuser_request",
+            "in": "body",
+            "description": "Richiesta nuovo utente",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewUserRequest"
+            }
+          }
+        ],
+        "description": "Registrazione nuovo utente\nQuesta api registra un nuovo utente nella app. Se la registrazione va a buon fine viene inviata una mail con una password temporanea per il primo accesso.",
+        "tags": [
+          "Public API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Utente creato."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        }
+      }
+    },
+    "/salvaPrimaPass": {
+      "post": {
+        "parameters": [
+          {
+            "name": "PrimaPassRequest",
+            "in": "body",
+            "description": "Richiesta nuova password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PrimaPassRequest"
+            }
+          }
+        ],
+        "description": "Registrazione prime password\nPermette la registrazione della password al primo accesso",
+        "tags": [
+          "Public API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Password Cambiata."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        }
+      }
+    },
+    "/resetPassword": {
+      "post": {
+        "parameters": [
+          {
+            "name": "CambioPasswordRequest",
+            "in": "body",
+            "description": "Richiesta reset password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CambioPasswordRequest"
+            }
+          }
+        ],
+        "description": "Reset della password\nLa password viene resettata. Viene creata una password temporanea e inviata via email\nalla email registrata.",
+        "tags": [
+          "Public API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Password Cambiata."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseError"
+            }
+          }
+        }
+      }
+    },
+    "/connessioni": {
+      "post": {
+        "parameters": [
+          {
+            "name": "nConnessioniRequest",
+            "in": "body",
+            "description": "Richiesta connessioni",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ConnessioniRequest"
+            }
+          }
+        ],
+        "description": "Ottengo le connessioni e i contratti\nGli passo accountid",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Connessioni."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/profilifatturazione": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ProfiliFattRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProfiliFattRequest"
+            }
+          }
+        ],
+        "description": "Ottengo il profilo fatturazione\nGli passo il profilo id",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Profili Fatturazioni."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/pod": {
+      "post": {
+        "parameters": [
+          {
+            "name": "PodRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PodRequest"
+            }
+          }
+        ],
+        "description": "Ottengo il pod\nGli passo il pod id",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pod."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/pdr": {
+      "post": {
+        "parameters": [
+          {
+            "name": "PdrRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PdrRequest"
+            }
+          }
+        ],
+        "description": "Ottengo il pdr\nGli passo il pdr id",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pdr."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/contratti": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ContrattiRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContrattiRequest"
+            }
+          }
+        ],
+        "description": "Ottengo i contratti\nDevo passargli l'id del contratto",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Contratti."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getMisureTlc": {
+      "post": {
+        "parameters": [
+          {
+            "name": "MisureTLCRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MisureTLCRequest"
+            }
+          }
+        ],
+        "description": "Misurazioni tlc (consumi)",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Misurazioni TLC."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/datiutente": {
+      "post": {
+        "parameters": [
+          {
+            "name": "DatiUtenteRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DatiUtenteRequest"
+            }
+          }
+        ],
+        "description": "Dati utente",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Dati Utente."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/datifatturazione2": {
+      "post": {
+        "parameters": [
+          {
+            "name": "DatiFatturazioneRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DatiFatturazioneRequest"
+            }
+          }
+        ],
+        "description": "Dati Fatturazione",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Dati Fatturazione."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getComunicazioni": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ComunicazioniRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ComunicazioniRequest"
+            }
+          }
+        ],
+        "description": "Lista delle comunicazioni",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Dati Fatturazione."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/postMessaggio": {
+      "post": {
+        "parameters": [
+          {
+            "name": "MessaggioUtenteRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MessaggioUtenteRequest"
+            }
+          }
+        ],
+        "description": "Posta il messaggio utente",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Messaggio inserito in DB."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getMessaggiUtenti": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ListaMessaggiiUtenteRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListaMessaggiiUtenteRequest"
+            }
+          }
+        ],
+        "description": "Lista dei messaggi inviati dagli utenti",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista messaggi."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getBanche": {
+      "post": {
+        "parameters": [
+          {
+            "name": "BancheRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BancheRequest"
+            }
+          }
+        ],
+        "description": "Lista dei messaggi inviati dagli utenti",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Banche."
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/setComunicazioneVista": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ComunicazioneVistaRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ComunicazioneVistaRequest"
+            }
+          }
+        ],
+        "description": "Imposta comunicazione come vista",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/checkpassword": {
+      "post": {
+        "parameters": [
+          {
+            "name": "CheckPasswordRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckPasswordRequest"
+            }
+          }
+        ],
+        "description": "Controlla la password",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/cambiaPassword": {
+      "post": {
+        "parameters": [
+          {
+            "name": "CambioPasswordRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CambioPasswordRequest"
+            }
+          }
+        ],
+        "description": "Cambio password",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/gestioneLetture": {
+      "post": {
+        "parameters": [
+          {
+            "name": "AutoletturaRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutoletturaRequest"
+            }
+          }
+        ],
+        "description": "Invio autolettura",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getAutoletture": {
+      "post": {
+        "parameters": [
+          {
+            "name": "AutoletturaGetRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AutoletturaGetRequest"
+            }
+          }
+        ],
+        "description": "Autoletture",
+        "tags": [
+          "Private API"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getmisuretlcvtiger": {
+      "post": {
+        "parameters": [
+          {
+            "name": "MisureTLCCrmRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MisureTLCCrmRequest"
+            }
+          }
+        ],
+        "description": "Misure TLC (Servizio VTiger)",
+        "tags": [
+          "Private CRM"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getBolletteVtiger": {
+      "post": {
+        "parameters": [
+          {
+            "name": "BolletteCrmRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BolletteCrmRequest"
+            }
+          }
+        ],
+        "description": "Bollette (Servizio Vtiger)",
+        "tags": [
+          "Private CRM"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/getContrattoVtiger": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ContrattoCrmRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ContrattoCrmRequest"
+            }
+          }
+        ],
+        "description": "Contratti (Servizio VTiger)",
+        "tags": [
+          "Private CRM"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/insertAutolettureVtiger": {
+      "post": {
+        "parameters": [
+          {
+            "name": "InserimentoAutolettureCrmRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InserimentoAutolettureCrmRequest"
+            }
+          }
+        ],
+        "description": "Inserimento Autoletture (Servizio VTiger)",
+        "tags": [
+          "Private CRM"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/modificaDatiVtiger": {
+      "post": {
+        "parameters": [
+          {
+            "name": "ModificaDatiCrmRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ModificaDatiCrmRequest"
+            }
+          }
+        ],
+        "description": "Modifica Dati (Servizio VTiger)",
+        "tags": [
+          "Private CRM"
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/paga": {
+      "post": {
+        "parameters": [
+          {
+            "name": "PagamentiGestPayRequest",
+            "in": "body",
+            "description": "Richiesta",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PagamentiGestPayRequest"
+            }
+          }
+        ],
+        "description": "Pagamenti (Servizio Banca) GestPay",
+        "tags": [
+          "Private Pagamenti (Gest Pay)"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/PagamentiGestPayResponse"
+            }
+          },
+          "default": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ResponseErrorP"
+            }
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AuthRequest": {
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": ""
+        },
+        "password": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "AuthResponse": {
+      "required": [
+        "success",
+        "message",
+        "usercode",
+        "token",
+        "reset_token",
+        "dataLogin"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": ""
+        },
+        "message": {
+          "type": "string",
+          "description": ""
+        },
+        "usercode": {
+          "type": "string",
+          "description": ""
+        },
+        "token": {
+          "type": "string",
+          "description": ""
+        },
+        "reset_token": {
+          "type": "string",
+          "description": ""
+        },
+        "expire_token": {
+          "type": "string",
+          "description": ""
+        },
+        "dataLogin": {
+          "type": "object",
+          "description": ""
+        }
+      }
+    },
+    "NewUserRequest": {
+      "required": [
+        "email",
+        "url"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": ""
+        },
+        "usercode": {
+          "type": "string",
+          "description": ""
+        },
+        "url": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ResponseError": {
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Sempre a false"
+        },
+        "message": {
+          "type": "string",
+          "description": "Messaggio di descrizione dell'errore"
+        }
+      }
+    },
+    "PrimaPassRequest": {
+      "required": [
+        "token",
+        "newPassword"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "token"
+        },
+        "newPassword": {
+          "type": "string",
+          "description": "Nuova password"
+        }
+      }
+    },
+    "CambioPasswordRequest": {
+      "required": [
+        "usercode",
+        "pass"
+      ],
+      "properties": {
+        "usercode": {
+          "type": "string",
+          "description": ""
+        },
+        "pass": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ResponseErrorP": {
+      "required": [
+        "success",
+        "message"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Sempre a false"
+        },
+        "message": {
+          "type": "string",
+          "description": "Messaggio di descrizione dell'errore"
+        }
+      }
+    },
+    "ConnessioniRequest": {
+      "required": [
+        "accountid"
+      ],
+      "properties": {
+        "accountid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ProfiliFattRequest": {
+      "required": [
+        "profiliid"
+      ],
+      "properties": {
+        "profiliid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "PodRequest": {
+      "required": [
+        "podid"
+      ],
+      "properties": {
+        "podid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "PdrRequest": {
+      "required": [
+        "pdrid"
+      ],
+      "properties": {
+        "pdrid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ContrattiRequest": {
+      "required": [
+        "contrattiid"
+      ],
+      "properties": {
+        "contrattiid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "MisureTLCRequest": {
+      "required": [
+        "connessioneid"
+      ],
+      "properties": {
+        "connessioneid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "DatiUtenteRequest": {
+      "required": [
+        "usercode"
+      ],
+      "properties": {
+        "usercode": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "DatiFatturazioneRequest": {
+      "required": [
+        "usercode"
+      ],
+      "properties": {
+        "usercode": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ComunicazioniRequest": {
+      "required": [
+        "usercode"
+      ],
+      "properties": {
+        "usercode": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "MessaggioUtenteRequest": {
+      "required": [
+        "idutente",
+        "oggetto",
+        "messaggio"
+      ],
+      "properties": {
+        "idutente": {
+          "type": "string",
+          "description": ""
+        },
+        "oggetto": {
+          "type": "string",
+          "description": ""
+        },
+        "messaggio": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ListaMessaggiiUtenteRequest": {
+      "required": [
+        "usercode"
+      ],
+      "properties": {
+        "usercode": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "BancheRequest": {
+      "required": [
+        "bancheid"
+      ],
+      "properties": {
+        "bancheid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ComunicazioneVistaRequest": {
+      "required": [
+        "bancheid"
+      ],
+      "properties": {
+        "bancheid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "CheckPasswordRequest": {
+      "required": [
+        "usercode",
+        "pass"
+      ],
+      "properties": {
+        "usercode": {
+          "type": "string",
+          "description": ""
+        },
+        "pass": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "AutoletturaRequest": {
+      "required": [
+        "dati"
+      ],
+      "properties": {
+        "dati": {
+          "type": "object",
+          "description": ""
+        }
+      }
+    },
+    "AutoletturaGetRequest": {
+      "required": [
+        "idcliente"
+      ],
+      "properties": {
+        "idcliente": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "MisureTLCCrmRequest": {
+      "required": [
+        "connectionid"
+      ],
+      "properties": {
+        "connectionid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "BolletteCrmRequest": {
+      "required": [
+        "bollettaid"
+      ],
+      "properties": {
+        "bollettaid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ContrattoCrmRequest": {
+      "required": [
+        "connessioniid"
+      ],
+      "properties": {
+        "connessioniid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "InserimentoAutolettureCrmRequest": {
+      "required": [
+        "connessioniid",
+        "photo1",
+        "photo2",
+        "lettura",
+        "letturaconv"
+      ],
+      "properties": {
+        "connessioniid": {
+          "type": "string",
+          "description": ""
+        },
+        "photo1": {
+          "type": "object",
+          "description": ""
+        },
+        "photo2": {
+          "type": "object",
+          "description": ""
+        },
+        "lettura": {
+          "type": "string",
+          "description": ""
+        },
+        "letturaconv": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "ModificaDatiCrmRequest": {
+      "required": [
+        "token",
+        "accountid",
+        "otherphone",
+        "fax",
+        "email2",
+        "phone",
+        "website",
+        "account_legale_cognome",
+        "account_legale_nome",
+        "account_legale_cf",
+        "account_tipo_documento",
+        "account_num_documento",
+        "account_enterilascio",
+        "account_datarilascio",
+        "account_scad_documento",
+        "account_soddisfdir",
+        "account_promozdir",
+        "account_mktgdir",
+        "account_soddisfind",
+        "account_mktgind"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": ""
+        },
+        "accountid": {
+          "type": "string",
+          "description": ""
+        },
+        "otherphone": {
+          "type": "string",
+          "description": ""
+        },
+        "fax": {
+          "type": "string",
+          "description": ""
+        },
+        "email2": {
+          "type": "string",
+          "description": ""
+        },
+        "phone": {
+          "type": "string",
+          "description": ""
+        },
+        "website": {
+          "type": "string",
+          "description": ""
+        },
+        "account_legale_cognome": {
+          "type": "string",
+          "description": ""
+        },
+        "account_legale_nome": {
+          "type": "string",
+          "description": ""
+        },
+        "account_legale_cf": {
+          "type": "string",
+          "description": ""
+        },
+        "account_tipo_documento": {
+          "type": "string",
+          "description": ""
+        },
+        "account_num_documento": {
+          "type": "string",
+          "description": ""
+        },
+        "account_enterilascio": {
+          "type": "string",
+          "description": ""
+        },
+        "account_datarilascio": {
+          "type": "string",
+          "description": ""
+        },
+        "account_scad_documento": {
+          "type": "string",
+          "description": ""
+        },
+        "account_soddisfdir": {
+          "type": "string",
+          "description": ""
+        },
+        "account_promozdir": {
+          "type": "string",
+          "description": ""
+        },
+        "account_mktgdir": {
+          "type": "string",
+          "description": ""
+        },
+        "account_soddisfind": {
+          "type": "string",
+          "description": ""
+        },
+        "account_mktgind": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "PagamentiGestPayResponse": {
+      "required": [
+        "shopLogin",
+        "cryptedString",
+        "item",
+        "amount",
+        "url",
+        "success",
+        "error"
+      ],
+      "properties": {
+        "shopLogin": {
+          "type": "string",
+          "description": ""
+        },
+        "cryptedString": {
+          "type": "string",
+          "description": ""
+        },
+        "item": {
+          "type": "string",
+          "description": ""
+        },
+        "amount": {
+          "type": "string",
+          "description": ""
+        },
+        "url": {
+          "type": "string",
+          "description": ""
+        },
+        "success": {
+          "type": "string",
+          "description": ""
+        },
+        "error": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    },
+    "PagamentiGestPayRequest": {
+      "required": [
+        "item",
+        "price",
+        "userid"
+      ],
+      "properties": {
+        "item": {
+          "type": "string",
+          "description": ""
+        },
+        "price": {
+          "type": "string",
+          "description": ""
+        },
+        "userid": {
+          "type": "string",
+          "description": ""
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "tags": [
+    {
+      "name": "Public API",
+      "description": ""
+    },
+    {
+      "name": "Private API",
+      "description": ""
+    },
+    {
+      "name": "Private CRM",
+      "description": ""
+    },
+    {
+      "name": "Private Pagamenti (Gest Pay)",
+      "description": ""
+    }
+  ]
+}
